@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Distributor</title>
+
+    <style>
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 10px;
+            /*
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+            */
+        }
+        .content-column {
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .content-column div {
+            display: flex;
+            justify-content: center; /* align horizontal */
+            align-items: center; /* align vertical */
+            text-align: center;
+            font-size: 4em;
+            border: 1px solid blue;
+            padding: 5px;
+        }
+
+        @media (max-width: 510px) {
+            .columns {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            .col1 {
+                display: block;
+            }
+            .col2, .col3, .col4, .col5 {
+                display: none;
+            }
+        }
+        @media (min-width: 510px) and (max-width: 1000px) {
+            .columns {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .col1, .col2 {
+                display: block;
+            }
+            .col3, .col4, .col5 {
+                display: none;
+            }
+        }
+        @media (min-width: 1000px) and (max-width: 1500px) {
+            .columns {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .col1, .col2. .col3 {
+                display: block;
+            }
+            .col4, .col5 {
+                display: none;
+            }
+        }
+        @media (min-width: 1500px) {
+            .columns {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .col1, .col2. .col3, .col4 {
+                display: block;
+            }
+            .col5 {
+                display: none;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+
+    <div style="display: none" id="content">
+        <!-- Source container -->
+        <!-- Insert items to distribute here -->
+    </div>
+
+    <div class="columns">
+        <!-- target containers -->
+        <!-- Note: div inside a div otherwise all columns have the same height regardless of the content -->
+        <div class="grid-column"><div class="content-column col1"></div></div>
+        <div class="grid-column"><div class="content-column col2"></div></div>
+        <div class="grid-column"><div class="content-column col3"></div></div>
+        <div class="grid-column"><div class="content-column col4"></div></div>
+        <div class="grid-column"><div class="content-column col5"></div></div>
+    </div>
+
+    <script src="distributor.js"></script>
+    <script>
+
+        // Distribute items from '#content' container into '.content-columns' containers -->
+        var distributor = new Distributor(
+            'content',         // *id* of source container
+            'content-column'   // *class* of target containers
+        );
+
+        // Load some items
+        var content = document.getElementById('content');
+        var count = 0;
+        generateItems();
+
+        // Distribute items
+        distributor.distribute();
+
+        // Infinite scroll
+        window.onscroll = function(ev) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                // you're at the bottom of the page
+                // Load more items (into source container)
+                generateItems();
+                // Distribute them (into target containers)
+                distributor.distribute();
+            }
+        };
+
+        /**
+         * Generate random items
+         */
+        function generateItems() {
+            for (let i = count + 1; i <= count + 30; i++) {
+                let height = 100 + 10 * Math.floor((Math.random() * 30));
+                let newElt = '<div ><img height="' + height + '" src="https://via.placeholder.com/300x' + height + '?text=' + i + '"></div>';
+                //let newElt = '<div style="height: '+height+'px">'+i+'</div>';
+                content.innerHTML += newElt;
+            }
+            count += 30;
+        }
+
+    </script>
+</body>
+</html>
