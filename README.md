@@ -27,5 +27,5 @@
     );
 ```
 
-[Example here](http://htmlpreview.github.io/?https://github.com/leahpar/distributor/example.html)
+[Example here](https://htmlpreview.github.io/?https://github.com/leahpar/distributor/master/example.html)
 
