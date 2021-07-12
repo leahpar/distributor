@@ -5,15 +5,23 @@ class Distributor {
      * Constructor
      * @param content_selector_id       ID of the items container
      * @param columns_selector_class    CLASS of the columns
+     * @param set_listener              Enable/disable 'resize' listener (default: false)
      */
-    constructor(content_selector_id, columns_selector_class) {
+    constructor(content_selector_id, columns_selector_class, set_listener = false) {
 
         this.content = document.getElementById(content_selector_id);
         this.columns = document.getElementsByClassName(columns_selector_class);
         this.activeColumnsCount = 0;
 
-        //https://stackoverflow.com/a/43727582/11105345
-        window.addEventListener('resize', this.onWindowChange.bind(this));
+        // Save handler for event listener
+        // https://stackoverflow.com/a/28665920/11105345
+        // Bind
+        // https://stackoverflow.com/a/43727582/11105345
+        this.handler = this.onWindowChange.bind(this);
+
+        if (set_listener) {
+            this.enableListener();
+        }
     }
 
 
@@ -71,6 +79,19 @@ class Distributor {
      */
     countElements(columns) {
         return [...columns].reduce((count, col) => count + col.children.length, 0);
+    }
+
+    /**
+     * Enable 'resize' listener
+     */
+    enableListener() {
+        window.addEventListener('resize', this.handler);
+    }
+    /**
+     * Disable 'resize' listener
+     */
+    disableListener() {
+        window.removeEventListener('resize', this.handler);
     }
 
     /*---------- Responsive ----------*/

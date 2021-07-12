@@ -21,10 +21,25 @@
 ```
 
 ```javascript
-    var distributor = new Distributor(
-        'content', // ID    of element containing items to distribute
-        'column'   // CLASS of columns
-    );
+// Initialize distributor
+var distributor = new Distributor(
+    'content', // ID    of element containing items to distribute
+    'column',  // CLASS of columns,
+    true       // Automatically redistribute items (if added/removed/hidden column)
+);
+
+// Distribute items
+distributor.distribute();
+
+// If more items added to source container, distribute them
+distributor.distribute();
+
+// Manually redistribute items (if added/removed/hidden column)
+distributor.redistribute();
+
+// Put back items in source container (why not)
+distributor.resetDistribution();
+
 ```
 
 [Example here](https://htmlpreview.github.io/?https://github.com/leahpar/distributor/master/example.html)

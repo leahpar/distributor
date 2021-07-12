@@ -99,8 +99,9 @@
 
         // Distribute items from '#content' container into '.content-columns' containers -->
         var distributor = new Distributor(
-            'content',         // *id* of source container
-            'content-column'   // *class* of target containers
+            'content',          // *id* of source container
+            'content-column',   // *class* of target containers
+            true                // automatic redistribution on columns change (responsive)
         );
 
         // Load some items
